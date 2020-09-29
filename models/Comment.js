@@ -2,7 +2,8 @@ const { Schema, model, Types } = require('mongoose');
 const moment = require('moment');
 
 
-const ReplySchema = new Schema({
+const ReplySchema = new Schema(
+  {
     // set custom id to avoid confusion with parent comment _id
     replyId: {
       type: Schema.Types.ObjectId,
@@ -18,16 +19,17 @@ const ReplySchema = new Schema({
       type: Date,
       default: Date.now,
       get: createdAtVal => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
+      }
     },
     {
       toJSON: {
-        virtuals: true,
         getters: true
       }
     }
 );
 
-const CommentSchema = new Schema({
+const CommentSchema = new Schema(
+  {
   writtenBy: {
     type: String
   },
@@ -40,7 +42,7 @@ const CommentSchema = new Schema({
     get: createdAtVal => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
   },
   replies: [ReplySchema]
-  }
+  },
   {
     toJSON: {
       virtuals: true,
